@@ -19,14 +19,24 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <pthread.h>
+#include <stdint.h>
+
+enum						e_philo_state
+{
+	HAS_FORK,
+	EATING,
+	SLEEPING,
+	THINKING,
+	DEAD
+};
 
 typedef struct	s_inf
 {
-	int	number_of_philosophers;
+	int	nu_philos;
 	int	time_to_die;
 	int	time_to_eat;
 	int	time_to_sleep;
-	int times_each_philosopher_eat;
+	int each_philosopher_eat;
 }	t_inf;
 
 typedef struct s_philo_state
@@ -42,14 +52,13 @@ typedef struct s_philo
 	t_philo_state 		state;
 	int 				eat_n;
 	long 				last_eat_time;
-	struct s_philo	*next;
 
 }	t_philo;
 
 typedef struct s_main
 {
 	t_inf					info;
-	t_philo					philo;
+	t_philo					*philo;
 	int						dead_philo;
 	pthread_mutex_t			*forks;
 	pthread_mutex_t			mx_phlio_state;
@@ -57,5 +66,9 @@ typedef struct s_main
 	pthread_mutex_t			mx_dead_philo;
 	pthread_mutex_t			mx_print;
 }	t_main;
+
+t_main  *ig_init_dinner(int argc, char **args);
+int     ig_atoi(const char *string);
+int     ig_check_args(int argc, char **args);
 
 #endif
