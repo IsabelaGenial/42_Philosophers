@@ -1,6 +1,6 @@
 NAME				=	philo
 
-SRC_MANDATORY		= 	main.c
+SRC_MANDATORY		= 	main.c init.c error.c
 OBJ					=	$(SRC_MANDATORY:%.c=%.o)
 HEADER				=	philo.h
 CC					=	cc
@@ -12,8 +12,8 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(CC) $(FLAGS) -I. $(OBJ) -o $(NAME)
 
-$(OBJ): $(SRC_MANDATORY)
-	$(CC) $(CFLAG) -c $< -o $@
+%.o: %.c
+	$(CC) $(CFLAG) -I $(HEADER) -c $< -o $@
 
 clean:
 	rm -rf $(OBJ)
