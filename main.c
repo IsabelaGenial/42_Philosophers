@@ -14,20 +14,12 @@
 
 int	main(int argc, char **args)
 {
-	t_main dining_philos;
+	t_main *dining_philos;
 
-	if (argc != 6)
-		return(0);
-	else
-	{
-		dining_philos.info.number_of_philosophers = atoi(args[1]);
-		dining_philos.info.time_to_die = atoi(args[2]);
-		dining_philos.info.time_to_eat = atoi(args[3]);
-		dining_philos.info.time_to_sleep = atoi(args[4]);
-	}
-	printf("%i\n",dining_philos.info.number_of_philosophers);
-	printf("%i\n",dining_philos.info.time_to_die);
-	printf("%i\n",dining_philos.info.time_to_eat);
-	printf("%i\n",dining_philos.info.time_to_sleep);
+	ig_check_args(argc, args);
+	dining_philos = ig_init_dinner(argc, args);
+	if(!dining_philos)
+		return(printf("error malloc"));
+
 	return(0);
 }
