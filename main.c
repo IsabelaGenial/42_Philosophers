@@ -16,7 +16,8 @@ int	main(int argc, char **args)
 {
 	t_main *dining_philos;
 
-	ig_check_args(argc, args);
+	if(ig_check_args(argc, args))
+		return (0);
 	dining_philos = ig_init_dinner(argc, args);
 	if(!dining_philos)
 		return(printf("error malloc"));
