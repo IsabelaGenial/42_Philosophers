@@ -16,6 +16,7 @@ t_main *ig_init_dinner(int argc, char **args)
 		dining_philos->info->each_philos_eat = ig_atoi(args[5]);
 	dining_philos->dead_philo = 0;
 	dining_philos->philo = (t_philo *)malloc(ig_atoi(args[1]) * sizeof(t_philo));
+	dining_philos->forks = (t_fork *)malloc(ig_atoi(args[1]) * sizeof(t_fork));
 	pthread_mutex_init(&dining_philos->mx_each_ate_enough, NULL);
 	pthread_mutex_init(&dining_philos->mx_phlio_state, NULL);
 	pthread_mutex_init(&dining_philos->mx_dead_philo, NULL);
