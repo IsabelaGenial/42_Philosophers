@@ -55,26 +55,16 @@ typedef struct s_philo
 
 }	t_philo;
 
-typedef struct s_fork
-{
-	//malloc mutex
-	pthread_mutex_t			forks;
-	int 					id;
-} t_fork;
-
 typedef struct s_main
 {
 	t_inf					*info;
 	t_philo					*philo;
 	int						dead_philo;
-	t_fork 					**fork;
+	pthread_mutex_t			*forks;
 	pthread_mutex_t			mx_phlio_state;
 	pthread_mutex_t			mx_each_ate_enough;
 	pthread_mutex_t			mx_dead_philo;
 	pthread_mutex_t			mx_print;
-	//variable - time started routine struct timeval
-	//atomic
-
 }	t_main;
 
 typedef struct s_thread
@@ -83,8 +73,11 @@ typedef struct s_thread
 	t_main	dinning;
 }	t_thread;
 
-t_main	*ig_init_dinner(int argc, char **args);
-int     ig_atoi(const char *string);
-int     ig_check_args(int argc, char **args);
-
+t_thread	*ig_init_thread_table(t_main *dining);
+t_main		*ig_init_dinner(int argc, char **args);
+void		*ig_philo_thread(void *param);
+void 		ig_threads(t_main *dinner);
+int     	ig_atoi(const char *string);
+int    		ig_check_args(int argc, char **args);
+int			ig_check_thread(t_thread *dinner, int closer);
 #endif

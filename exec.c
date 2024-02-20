@@ -1,36 +1,28 @@
 
 #include "philo.h"
 
-void ig_threads(t_main *dinner)
-{
-	int	 i;
-	t_thread	*dinning;
+static void ig_eat(t_thread *dinner);
 
-	i = 0;
-	while (i < dinner->info->nu_philos)
-	{
-		dinning = (t_thread *)malloc(sizeof(t_thread));
-		dinning->i = i;
-		dinner->philo[i]->id = i;
-		pthread_create(dinner->philo[i].pthread, NULL, )
-	}
+void *ig_philo_thread(void *param)
+{
+	t_thread *dinner;
+
+	dinner = (t_thread *)param;
+	while(!ig_check_thread(dinner, 0))
+		ig_eat(dinner);
+	exit(0);
 }
 
-void *routine_philo(void *arg)
-{
-	t_thread *dinning;
-
-	dinning = arg;
-	while()
-	{
-
-	}
-}
-
-int eat(t_thread *table)
+static void ig_eat(t_thread *dinner)
 {
 	int right_fork;
 	int left_fork;
 
-	
+	right_fork = dinner->dinning.philo->id;
+	left_fork = dinner->dinning.philo->id + 1;
+	if(dinner->dinning.philo->id % 2 == 0)
+		pthread_mutex_lock(&dinner->dinning.forks[right_fork]);
+	pthread_mutex_lock(&dinner->dinning.forks[left_fork]);
+	if(dinner->dinning.philo->id % 2 == 1)
+		pthread_mutex_lock(&dinner->dinning.forks[right_fork]);
 }

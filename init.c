@@ -16,7 +16,7 @@ t_main *ig_init_dinner(int argc, char **args)
 		dining_philos->info->each_philos_eat = ig_atoi(args[5]);
 	dining_philos->dead_philo = 0;
 	dining_philos->philo = (t_philo *)malloc(ig_atoi(args[1]) * sizeof(t_philo));
-	dining_philos->forks = (t_fork *)malloc(ig_atoi(args[1]) * sizeof(t_fork));
+	dining_philos->forks = malloc(ig_atoi(args[1]) * sizeof(pthread_mutex_t));
 	pthread_mutex_init(&dining_philos->mx_each_ate_enough, NULL);
 	pthread_mutex_init(&dining_philos->mx_phlio_state, NULL);
 	pthread_mutex_init(&dining_philos->mx_dead_philo, NULL);
@@ -39,4 +39,31 @@ int ig_atoi(const char *string)
 	while (*string >= '0' && *string <='9')
 		numb = (numb * 10) + ((*string++) - 48);
 	return (numb * neg);
+}
+
+t_thread	*init_thread_table(t_main *dining)
+{
+	t_thread *tmp;
+
+	tmp = malloc(sizeof(*tmp));
+	tmp->i = -1;
+	tmp->dinning = *dining;
+	return (tmp);
+}
+
+void ig_threads(t_main *dinner)
+{
+	int	 i;
+	t_thread	*dinning;
+
+	i = 0;
+	while (i < dinner->info->nu_philos)
+	{
+		dinning = (t_thread *)malloc(sizeof(t_thread));
+		dinning->i = i;
+		dinner->philo[i].id = i;
+		pthread_create(dinner->philo[i].pthread, NULL, ig_philo_thread,
+					   (void *)dinner);
+		i++;
+	}
 }
