@@ -1,5 +1,5 @@
 
-#include "philo.h"
+#include "./philo.h"
 
 t_main *ig_init_dinner(int argc, char **args)
 {
@@ -41,7 +41,7 @@ int ig_atoi(const char *string)
 	return (numb * neg);
 }
 
-t_thread	*init_thread_table(t_main *dining)
+t_thread	*ig_init_thread_table(t_main *dining)
 {
 	t_thread *tmp;
 
@@ -61,9 +61,9 @@ void ig_threads(t_main *dinner)
 	{
 		dinning = (t_thread *)malloc(sizeof(t_thread));
 		dinning->i = i;
-		dinner->philo[i].id = i;
+		dinning->dinning.philo[i].id = i;
 		pthread_create(dinner->philo[i].pthread, NULL, ig_philo_thread,
-					   (void *)dinner);
+					   (void *)dinning);
 		i++;
 	}
 }
