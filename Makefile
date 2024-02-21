@@ -4,7 +4,7 @@ SRC_MANDATORY		= 	main.c init.c error.c exec.c check.c
 OBJ					=	$(SRC_MANDATORY:%.c=%.o)
 HEADER				=	philo.h
 CC					=	cc
-CFLAG				=	-g3 -Wall -Wextra -Werror
+CFLAG				=	-g3 -Wall -Wextra -Werror -pthread
 
 
 all: $(NAME)
