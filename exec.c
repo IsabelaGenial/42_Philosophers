@@ -1,59 +1,57 @@
 
 #include "philo.h"
 
-static void ig_eat(t_thread *dinner, enum e_philo_state mode);
-static void ig_sleep(t_thread *dinner, enum e_philo_state mode);
+static void ig_eat(t_philo *philo, enum e_philo_state mode);
+static void ig_sleep(t_philo *philo, enum e_philo_state mode);
 
 void *ig_philo_thread(void *param)
 {
-	t_thread *dinner;
+	t_philo *philo;
 
-	dinner = (t_thread *)param;
-	while(!ig_check_thread(dinner, 0))
+	philo = (t_philo *)param;
+	while(!ig_check_thread(philo->ptr_main, 0))
 	{
-		ig_state(dinner, THINKING);
-		ig_eat(dinner, EATING);
-		ig_sleep(dinner, SLEEPING);
+		ig_state(philo, THINKING);
+		ig_eat(philo, EATING);
+		ig_sleep(philo, SLEEPING);
 	}
-	free(dinner);
 	exit(0);
 }
 
-static void ig_eat(t_thread *dinner, enum e_philo_state mode)
+static void ig_eat(t_philo *philo, enum e_philo_state mode)
 {
 	int right_fork;
 	int left_fork;
 
-	right_fork = dinner->dinning.philo[dinner->i]->id;
-	left_fork = dinner->dinning.philo[dinner->i]->id - 1;
-	if(dinner->dinning.philo[dinner->i]->id % 2 == 0)
+	right_fork = philo->id;
+	left_fork = philo->id - 1;
+	if(philo->id % 2 == 0)
 	{
-		pthread_mutex_lock(&dinner->dinning.forks[right_fork]);
-		ig_state(dinner, HAS_FORK);
+		pthread_mutex_lock(&philo->ptr_main->forks[right_fork]);
+		ig_state(philo, HAS_FORK);
 	}
-	ig_check_forks(dinner, right_fork, 0);
-	pthread_mutex_lock(&dinner->dinning.forks[left_fork]);
-	if(dinner->dinning.philo[dinner->i]->id % 2 == 1)
-		pthread_mutex_lock(&dinner->dinning.forks[right_fork]);
-	ig_check_forks(dinner,right_fork, left_fork);
-	ig_state(dinner, HAS_FORK);
-	ig_check_forks(dinner, right_fork, left_fork);
-	ig_state(dinner, mode);
-	pthread_mutex_lock(&dinner->dinning.mx_phlio_state);
-	dinner->dinning.philo[dinner->i]->last_eat_time =
-			dinner->dinning.philo[dinner->i]->state.time;
-	pthread_mutex_unlock(&dinner->dinning.mx_phlio_state);
-	usleep(dinner->dinning.info->time_to_eat * 1000);
-	pthread_mutex_unlock(&dinner->dinning.forks[right_fork]);
-	pthread_mutex_unlock(&dinner->dinning.forks[left_fork]);
+	ig_check_forks(philo->ptr_main, right_fork, 0);
+	pthread_mutex_lock(&philo->ptr_main->forks[left_fork]);
+	if(philo->id % 2 == 1)
+		pthread_mutex_lock(&philo->ptr_main->forks[right_fork]);
+	ig_check_forks(philo->ptr_main,right_fork, left_fork);
+	ig_state(philo, HAS_FORK);
+	ig_check_forks(philo->ptr_main, right_fork, left_fork);
+	ig_state(philo, mode);
+	pthread_mutex_lock(&philo->ptr_main->mx_phlio_state);
+	philo->last_eat_time = philo->ptr_main->state.time;
+	pthread_mutex_unlock(&philo->ptr_main->mx_phlio_state);
+	usleep(philo->ptr_main->info->time_to_eat * 1000);
+	pthread_mutex_unlock(&philo->ptr_main->forks[right_fork]);
+	pthread_mutex_unlock(&philo->ptr_main->forks[left_fork]);
 }
 
-static void ig_sleep(t_thread *dinner, enum e_philo_state mode)
+static void ig_sleep(t_philo *philo, enum e_philo_state mode)
 {
-	ig_state(dinner, mode);
-	pthread_mutex_lock(&dinner->dinning.mx_phlio_state);
-	dinner->dinning.philo[dinner->i]->eat_n++;
-	pthread_mutex_unlock(&dinner->dinning.mx_phlio_state);
-	if(dinner->dinning.info->time_to_sleep)
-		usleep(dinner->dinning.info->time_to_sleep * 1000);
+	ig_state(philo, mode);
+	pthread_mutex_lock(&philo->ptr_main->mx_phlio_state);
+	philo->eat_n++;
+	pthread_mutex_unlock(&philo->ptr_main->mx_phlio_state);
+	if(philo->ptr_main->info->time_to_sleep)
+		usleep(philo->ptr_main->info->time_to_sleep * 1000);
 }
