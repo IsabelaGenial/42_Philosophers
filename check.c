@@ -1,6 +1,6 @@
 #include "philo.h"
 
-int ig_check_thread(t_thread *dinner, int closer)
+int ig_check_thread(t_main *dinner, int closer)
 {
 	pthread_mutex_lock(&dinner->dinning.mx_dead_philo);
 	pthread_mutex_lock(&dinner->dinning.mx_each_ate_enough);
@@ -21,7 +21,7 @@ int ig_check_thread(t_thread *dinner, int closer)
 	return (0);
 }
 
-void ig_state(t_thread *dinner, enum e_philo_state mode)
+void ig_state(t_main *dinner, enum e_philo_state mode)
 {
 	struct timeval time;
 	long get_time;
@@ -29,7 +29,7 @@ void ig_state(t_thread *dinner, enum e_philo_state mode)
 	ig_check_thread(dinner, 1);
 	gettimeofday(&time, NULL);
 	get_time = ((time.tv_sec * 1000L) + (time.tv_usec / 1000L));
-	dinner->dinning.philo[dinner->i].state = (t_philo_state){mode, get_time};
+	dinner->dinning.philo[dinner->i]->state = (t_philo_state){mode, get_time};
 	pthread_mutex_lock(&dinner->dinning.mx_print);
 	printf("%ld %d %s\n", get_time, dinner->i + 1,
 		   (char [5][20]){"has taken a fork", "is eating", "is sleeping",
@@ -37,7 +37,7 @@ void ig_state(t_thread *dinner, enum e_philo_state mode)
 	pthread_mutex_unlock(&dinner->dinning.mx_print);
 }
 
-void ig_check_forks(t_thread *dinner, int captor, int both )
+void ig_check_forks(t_main *dinner, int captor, int both )
 {
 	if(ig_check_thread(dinner, 0))
 	{
