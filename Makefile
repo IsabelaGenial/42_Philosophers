@@ -1,6 +1,6 @@
 NAME				=	philo
 
-SRC_MANDATORY		= 	main.c init.c error.c #check.c #exec.c
+SRC_MANDATORY		= 	main.c init.c error.c check.c exec.c
 OBJ					=	$(SRC_MANDATORY:%.c=%.o)
 HEADER				=	./philo.h
 CC					=	cc
