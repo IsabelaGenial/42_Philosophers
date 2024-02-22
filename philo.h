@@ -21,6 +21,8 @@
 #include <pthread.h>
 #include <stdint.h>
 
+typedef struct s_main t_main;
+
 enum						e_philo_state
 {
 	HAS_FORK,
@@ -48,13 +50,18 @@ typedef struct s_philo_state
 typedef struct s_philo
 {
 	int 				id;
-	pthread_t 			*pthread;
+	pthread_t 			pthread;
 	t_philo_state 		state;
 	int 				eat_n;
+	t_main				*ptr_main;
 	long 				last_eat_time;
 
 }	t_philo;
-
+//typedef struct s_thread
+//{
+//	int		i;
+//	t_main	dinning;
+//}	t_thread;
 typedef struct s_main
 {
 	t_inf					*info;
@@ -66,21 +73,22 @@ typedef struct s_main
 	pthread_mutex_t			mx_each_ate_enough;
 	pthread_mutex_t			mx_dead_philo;
 	pthread_mutex_t			mx_print;
+	long 					time_start;
 }	t_main;
 
-typedef struct s_thread
-{
-	int		i;
-	t_main	dinning;
-}	t_thread;
+//typedef struct s_thread
+//{
+//	int		i;
+//	t_main	dinning;
+//}	t_thread;
 
-t_thread	*ig_init_thread_table(t_main *dining);
+t_main	*ig_init_thread_table(t_main *dining);
 t_main		*ig_init_dinner(int argc, char **args);
 void		*ig_philo_thread(void *param);
 void 		ig_threads(t_main *dinner);
-void		ig_check_forks(t_thread *dinner, int captor, int both );
+void		ig_check_forks(t_main *dinner, int captor, int both );
 int     	ig_atoi(const char *string);
 int    		ig_check_args(int argc, char **args);
-int			ig_check_thread(t_thread *dinner, int closer);
-void		ig_state(t_thread *dinner, enum e_philo_state mode);
+int			ig_check_thread(t_main *dinner, int closer);
+void		ig_state(t_main *dinner, enum e_philo_state mode);
 #endif
