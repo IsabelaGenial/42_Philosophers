@@ -76,19 +76,13 @@ typedef struct s_main
 	long 					time_start;
 }	t_main;
 
-//typedef struct s_thread
-//{
-//	int		i;
-//	t_main	dinning;
-//}	t_thread;
-
-t_main	*ig_init_thread_table(t_main *dining);
+t_main		*ig_init_thread_table(t_main *dining);
 t_main		*ig_init_dinner(int argc, char **args);
 void		*ig_philo_thread(void *param);
 void 		ig_threads(t_main *dinner);
-void		ig_check_forks(t_main *dinner, int captor, int both );
+void		ig_check_forks(t_main *dinner, int captor, int both);
+void		ig_state(t_philo *philo, enum e_philo_state mode);
 int     	ig_atoi(const char *string);
 int    		ig_check_args(int argc, char **args);
-int			ig_check_thread(t_main *dinner, int closer);
-void		ig_state(t_main *dinner, enum e_philo_state mode);
+int			ig_check_thread(t_main *main, int closer);
 #endif
