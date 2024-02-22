@@ -1,6 +1,5 @@
 
 #include "philo.h"
-#include <pthread.h>
 
 t_main *ig_init_dinner(int argc, char **args)
 {
