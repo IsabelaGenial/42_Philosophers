@@ -42,16 +42,6 @@ int ig_atoi(const char *string)
 	return (numb * neg);
 }
 
-//t_thread	*ig_init_thread_table(t_main *dining)
-//{
-//	t_thread *tmp;
-//
-//	tmp = malloc(sizeof(*tmp));
-//	tmp->i = -1;
-//	tmp->dinning = *dining;
-//	return (tmp);
-//}
-
 void ig_threads(t_main *dinner)
 {
 	int	 i;
