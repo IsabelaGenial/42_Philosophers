@@ -15,7 +15,6 @@
 int	main(int argc, char **args)
 {
 	t_main		*dining_philos;
-	int 		i;
 
 	if(ig_check_args(argc, args))
 		return (0);
@@ -23,10 +22,6 @@ int	main(int argc, char **args)
 	if(!dining_philos)
 		return(printf("error malloc"));
 	ig_threads(dining_philos);
-
-	i = 0;
-//	while (i < dinnin.info->nu_philos)
-//		pthread_join(*dinner->dinning.philo[i++]->pthread, NULL);
-//	free(dinner);
+	ig_creat_thread(dining_philos);
 	return(0);
 }

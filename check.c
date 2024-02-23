@@ -26,7 +26,7 @@ void ig_state(t_philo *philo, enum e_philo_state mode)
 	struct timeval time;
 	long get_time;
 
-	ig_check_thread(philo->ptr_main, 1);
+//	ig_check_thread(philo->ptr_main, 1);
 	gettimeofday(&time, NULL);
 	get_time = ((time.tv_sec * 1000L) + (time.tv_usec / 1000L));
 	philo->state = (t_philo_state){mode, get_time};

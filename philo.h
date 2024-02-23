@@ -85,4 +85,5 @@ void		ig_state(t_philo *philo, enum e_philo_state mode);
 int     	ig_atoi(const char *string);
 int    		ig_check_args(int argc, char **args);
 int			ig_check_thread(t_main *main, int closer);
+void		ig_creat_thread(t_main *main);
 #endif
