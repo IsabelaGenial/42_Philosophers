@@ -6,7 +6,7 @@
 /*   By: igenial <igenial@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:22:29 by igenial           #+#    #+#             */
-/*   Updated: 2024/02/14 14:38:12 by igenial          ###   ########.fr       */
+/*   Updated: 2024/02/26 13:19:46 by igenial          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,5 @@ int     	ig_atoi(const char *string);
 int    		ig_check_args(int argc, char **args);
 int			ig_check_thread(t_main *main, int closer);
 void		ig_creat_thread(t_main *main);
+long		get_time(void);
 #endif

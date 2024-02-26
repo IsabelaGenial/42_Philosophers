@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: igenial <igenial@student.42sp.org.br>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/26 13:18:34 by igenial           #+#    #+#             */
+/*   Updated: 2024/02/26 13:18:36 by igenial          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "philo.h"
 
@@ -11,7 +23,7 @@ t_main *ig_init_dinner(int argc, char **args)
 	dining_philos->info->time_to_die = ig_atoi(args[2]);
 	dining_philos->info->time_to_eat = ig_atoi(args[3]);
 	dining_philos->info->time_to_sleep = ig_atoi(args[4]);
-	dining_philos->info->each_philos_eat = -1;
+	dining_philos->info->each_philos_eat = 0;
 	if (argc == 6)
 		dining_philos->info->each_philos_eat = ig_atoi(args[5]);
 	dining_philos->dead_philo = 0;

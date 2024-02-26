@@ -22,6 +22,7 @@ int	main(int argc, char **args)
 	if(!dining_philos)
 		return(printf("error malloc"));
 	ig_threads(dining_philos);
+	dining_philos->time_start = get_time();
 	ig_creat_thread(dining_philos);
 	return(0);
 }
