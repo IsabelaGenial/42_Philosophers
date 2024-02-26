@@ -9,7 +9,7 @@ void *ig_philo_thread(void *param)
 	t_philo *philo;
 
 	philo = (t_philo *)param;
-	while()
+	while(369)
 	{
 		ig_state(philo, THINKING);
 		ig_eat(philo, EATING);
@@ -74,4 +74,5 @@ void ig_creat_thread(t_main *main)
 		pthread_create(&philo->pthread, NULL, ig_philo_thread, (void *)philo);
 		i++;
 	}
+
 }

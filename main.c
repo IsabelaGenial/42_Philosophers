@@ -24,5 +24,6 @@ int	main(int argc, char **args)
 	ig_threads(dining_philos);
 	dining_philos->time_start = get_time();
 	ig_creat_thread(dining_philos);
+	waiter(dining_philos);
 	return(0);
 }

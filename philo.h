@@ -87,4 +87,5 @@ int    		ig_check_args(int argc, char **args);
 int			ig_check_thread(t_main *main, int closer);
 void		ig_creat_thread(t_main *main);
 long		get_time(void);
+int 		waiter(t_main *dinner);
 #endif
