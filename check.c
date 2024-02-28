@@ -25,7 +25,7 @@ void ig_state(t_philo *philo, enum e_philo_state mode)
 
 void ig_check_forks(t_main *dinner, int captor, int both )
 {
-	if(ig_the_check(dinner,0))
+	if(ig_the_check(dinner,1))
 	{
 		pthread_mutex_unlock(&dinner->forks[captor]);
 		if (both)

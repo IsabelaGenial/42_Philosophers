@@ -20,7 +20,7 @@ int	ig_philo_dead(t_philo *philo, long time_die)
 	long dead;
 
 	dead = get_time();
-	if (philo->last_eat_time - dead >= time_die)
+	if (dead - philo->last_eat_time >= time_die)
 		return (1);
 	return (0);
 }
@@ -43,6 +43,7 @@ int waiter(t_main *dinner)
 		{
 			pthread_mutex_lock(&dinner->mx_dead_philo);
 			dinner->dead_philo = philo;
+			printf("\n%i\n", philo);
 			pthread_mutex_unlock(&dinner->mx_dead_philo);
 			print_state(&dinner->philo[philo], DEAD);
 			pthread_mutex_lock(&dinner->mx_print);

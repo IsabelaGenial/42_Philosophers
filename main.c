@@ -28,11 +28,10 @@ int	main(int argc, char **args)
 	ig_creat_thread(dining_philos);
 	waiter(dining_philos);
 	i = 0;
-	while (i < dining_philos->info->nu_philos)
+	while (i < dining_philos->info->nu_philos - 1)
 	{
 		philo = dining_philos->philo[i++];
 		pthread_join(philo.pthread, NULL);
 	}
-	return(printf("\nsai MAIN\n"));
 	return(0);
 }
