@@ -18,9 +18,7 @@ void ig_state(t_philo *philo, enum e_philo_state mode)
 	long now;
 
 	now = get_time();
-	printf("\n%ld\n", now);
 	time = now - philo->ptr_main->time_start;
-	printf("\n%ld\n", time);
 	philo->state = (t_philo_state){mode, time};
 	print_state(philo, mode);
 }
@@ -32,7 +30,7 @@ void ig_check_forks(t_main *dinner, int captor, int both )
 		pthread_mutex_unlock(&dinner->forks[captor]);
 		if (both)
 			pthread_mutex_unlock(&dinner->forks[both]);
-		exit(printf("\nsai FORK\n"));
+		pthread_exit(NULL);
 	}
 }
 

@@ -65,7 +65,7 @@ void ig_threads(t_main *dinner)
 		ptr_philo = &dinner->philo[i];
 		ptr_philo->id = i;
 		ptr_philo->eat_n = 0;
-		ptr_philo->last_eat_time = 0;
+		ptr_philo->last_eat_time = get_time();
 		ptr_philo->ptr_main = dinner;
 		i++;
 	}
