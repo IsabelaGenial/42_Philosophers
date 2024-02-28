@@ -34,17 +34,26 @@ int ig_philo_n_eat(t_philo *philo, int each_philos_eat)
 
 int waiter(t_main *dinner)
 {
+	int philo;
+
 	while (369)
 	{
-		if (the_philo_die(dinner))
+		philo = the_philo_die(dinner);
+		if (philo > -1)
 		{
-			printf("die");
-			exit(1); //maybe return, because need exit of threads.
+			pthread_mutex_lock(&dinner->mx_dead_philo);
+			dinner->dead_philo = philo;
+			pthread_mutex_unlock(&dinner->mx_dead_philo);
+			print_state(&dinner->philo[philo], DEAD);
+			break;
 		}
 		if (dinner->info->each_philos_eat && the_philo_eat(dinner) == dinner->info->nu_philos)
 		{
-			printf("all philos eating");
-			exit(1);
+			pthread_mutex_lock(&dinner->mx_each_ate_enough);
+			dinner->each_philos_eat = the_philo_eat(dinner);
+			pthread_mutex_unlock(&dinner->mx_each_ate_enough);
+			print_state(&dinner->philo[dinner->each_philos_eat], DEAD);
+			break;
 		}
 	}
 	return (0);
@@ -53,14 +62,18 @@ int waiter(t_main *dinner)
  {
 	 int i;
 
-	 i=0;
+	 i = 0;
 	 while (i < dinner->info->nu_philos)
 	 {
 		 if (ig_philo_dead(&dinner->philo[i], dinner->info->time_to_die))
-			 return (1);
+		 {
+			 pthread_mutex_unlock(&dinner->mx_phlio_state);
+			 return (i);
+		 }
 		 i++;
 	 }
-	 return (0);
+	 pthread_mutex_unlock(&dinner->mx_phlio_state);
+	 return (-1);
  }
 
 int the_philo_eat(t_main *dinner)
@@ -68,14 +81,16 @@ int the_philo_eat(t_main *dinner)
 	int i;
 	int eat;
 
-	i=0;
+	i = 0;
 	eat = 0;
+	pthread_mutex_unlock(&dinner->mx_phlio_state);
 	while (i < dinner->info->nu_philos)
 	{
 		if (ig_philo_n_eat(&dinner->philo[i], dinner->info->each_philos_eat))
 			eat++;
 		i++;
 	}
+	pthread_mutex_unlock(&dinner->mx_phlio_state);
 	return (eat);
 }
 
@@ -85,5 +100,24 @@ long	get_time(void)
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000L) + (time.tv_usec / 1000L));
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
+int ig_the_check(t_main *dinner, int the_end)
+{
+	pthread_mutex_lock(&dinner->mx_each_ate_enough);
+	pthread_mutex_lock(&dinner->mx_dead_philo);
+	if(dinner->dead_philo != -1 || dinner->each_philos_eat)
+	{
+		pthread_mutex_unlock(&dinner->mx_each_ate_enough);
+		pthread_mutex_unlock(&dinner->mx_dead_philo);
+		if(the_end)
+		{
+			exit(printf("\nsai CHECK\n"));
+		}
+		return (1);
+	}
+	pthread_mutex_unlock(&dinner->mx_each_ate_enough);
+	pthread_mutex_unlock(&dinner->mx_dead_philo);
+	return (0);
 }

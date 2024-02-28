@@ -15,6 +15,8 @@
 int	main(int argc, char **args)
 {
 	t_main		*dining_philos;
+	int			i;
+	t_philo		philo;
 
 	if(ig_check_args(argc, args))
 		return (0);
@@ -25,5 +27,12 @@ int	main(int argc, char **args)
 	dining_philos->time_start = get_time();
 	ig_creat_thread(dining_philos);
 	waiter(dining_philos);
+	i = 0;
+	while (i < dining_philos->info->nu_philos)
+	{
+		philo = dining_philos->philo[i++];
+		pthread_join(philo.pthread, NULL);
+	}
+	return(printf("\nsai MAIN\n"));
 	return(0);
 }
