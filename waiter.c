@@ -20,14 +20,18 @@ int	ig_philo_dead(t_philo *philo, long time_die)
 	long dead;
 
 	dead = get_time();
-	if (dead - philo->last_eat_time >= time_die)
+	if (dead - philo->last_eat_time > time_die)
+	{
+		dead = dead - philo->last_eat_time;
+		philo->state = (t_philo_state) {DEAD, dead};
 		return (1);
+	}
 	return (0);
 }
 
 int ig_philo_n_eat(t_philo *philo, int each_philos_eat)
 {
-	if (philo->eat_n >= each_philos_eat)
+	if (philo->eat_n == each_philos_eat)
 		return (1);
 	return (0);
 }
@@ -43,19 +47,20 @@ int waiter(t_main *dinner)
 		{
 			pthread_mutex_lock(&dinner->mx_dead_philo);
 			dinner->dead_philo = philo;
-			printf("\n%i\n", philo);
+			printf("\n%i\n", philo + 1);
 			pthread_mutex_unlock(&dinner->mx_dead_philo);
 			print_state(&dinner->philo[philo], DEAD);
 			pthread_mutex_lock(&dinner->mx_print);
 			break;
 		}
-		if (the_philo_eat(dinner) == dinner->info->nu_philos - 1)
+		if (dinner->info->each_philos_eat
+			&& the_philo_eat(dinner) == dinner->info->nu_philos - 1)
 		{
+			pthread_mutex_lock(&dinner->mx_print);
 			pthread_mutex_lock(&dinner->mx_each_ate_enough);
 			dinner->each_philos_eat = the_philo_eat(dinner);
 			pthread_mutex_unlock(&dinner->mx_each_ate_enough);
-			print_state(&dinner->philo[dinner->each_philos_eat], DEAD);
-			pthread_mutex_lock(&dinner->mx_print);
+//			print_state(&dinner->philo[dinner->each_philos_eat], DEAD);
 			break;
 		}
 	}
@@ -115,9 +120,10 @@ int ig_the_check(t_main *dinner, int the_end)
 	{
 		pthread_mutex_unlock(&dinner->mx_each_ate_enough);
 		pthread_mutex_unlock(&dinner->mx_dead_philo);
+		printf("check\n");
 		if(the_end)
 		{
-			pthread_exit(NULL);
+			exit(0);
 		}
 		return (1);
 	}

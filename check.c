@@ -30,7 +30,7 @@ void ig_check_forks(t_main *dinner, int captor, int both )
 		pthread_mutex_unlock(&dinner->forks[captor]);
 		if (both)
 			pthread_mutex_unlock(&dinner->forks[both]);
-		pthread_exit(NULL);
+		exit(0);
 	}
 }
 

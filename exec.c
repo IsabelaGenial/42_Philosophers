@@ -11,12 +11,15 @@ void *ig_philo_thread(void *param)
 	philo = (t_philo *)param;
 	while(!ig_the_check(philo->ptr_main, 0))
 	{
-		ig_state(philo, THINKING);
-		ig_eat(philo, EATING);
-		ig_sleep(philo, SLEEPING);
+		if(!ig_the_check(philo->ptr_main, 0))
+			ig_state(philo, THINKING);
+		if(!ig_the_check(philo->ptr_main, 0))
+			ig_eat(philo, EATING);
+		if(!ig_the_check(philo->ptr_main, 0))
+			ig_sleep(philo, SLEEPING);
 	}
 	//function dead;
-	pthread_exit(NULL);
+	exit(0);
 }
 
 static void ig_eat(t_philo *philo, enum e_philo_state mode)
@@ -40,7 +43,6 @@ static void ig_eat(t_philo *philo, enum e_philo_state mode)
 	ig_check_forks(philo->ptr_main, first_fork, 0);
 	pthread_mutex_lock(&philo->ptr_main->forks[second_fork]);
 	ig_state(philo, HAS_FORK);
-	ig_check_forks(philo->ptr_main, first_fork, second_fork);
 	ig_check_forks(philo->ptr_main, first_fork, second_fork);
 	pthread_mutex_lock(&philo->ptr_main->mx_phlio_state);
 	ig_state(philo, mode);
