@@ -16,7 +16,7 @@ SRC_MANDATORY		= 	main.c init.c error.c check.c exec.c waiter.c
 OBJ					=	$(SRC_MANDATORY:%.c=%.o)
 HEADER				=	./philo.h
 CC					=	cc
-CFLAG				=	-g3 -Wall -Wextra -Werror -pthread #-DDEBUG #-fsanitize=thread
+CFLAG				=	-g3 -Wall -Wextra -Werror -pthread -fsanitize=thread
 
 
 all: $(NAME)
