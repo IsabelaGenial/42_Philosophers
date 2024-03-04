@@ -56,11 +56,10 @@ int waiter(t_main *dinner)
 		if (dinner->info->each_philos_eat
 			&& the_philo_eat(dinner) == dinner->info->nu_philos - 1)
 		{
-			pthread_mutex_lock(&dinner->mx_print);
 			pthread_mutex_lock(&dinner->mx_each_ate_enough);
 			dinner->each_philos_eat = the_philo_eat(dinner);
 			pthread_mutex_unlock(&dinner->mx_each_ate_enough);
-//			print_state(&dinner->philo[dinner->each_philos_eat], DEAD);
+			pthread_mutex_lock(&dinner->mx_print);
 			break;
 		}
 	}
