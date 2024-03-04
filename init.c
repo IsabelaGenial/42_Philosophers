@@ -28,10 +28,11 @@ t_main *ig_init_dinner(int argc, char **args)
 		dining_philos->info->each_philos_eat = ig_atoi(args[5]);
 	dining_philos->dead_philo = -1;
 	dining_philos->each_philos_eat = 0;
-	dining_philos->philo = (t_philo *)malloc(ig_atoi(args[1]) * sizeof(t_philo));
 	dining_philos->forks = malloc(ig_atoi(args[1]) * sizeof(pthread_mutex_t));
+	dining_philos->philo = (t_philo *)malloc(ig_atoi(args[1]) * sizeof(t_philo));
 	pthread_mutex_init(&dining_philos->mx_each_ate_enough, NULL);
 	pthread_mutex_init(&dining_philos->mx_phlio_state, NULL);
+	pthread_mutex_init(&dining_philos->mx_state, NULL);
 	pthread_mutex_init(&dining_philos->mx_dead_philo, NULL);
 	pthread_mutex_init(&dining_philos->mx_print, NULL);
 	return (dining_philos);

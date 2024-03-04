@@ -25,13 +25,22 @@ int	main(int argc, char **args)
 		return(printf("error malloc"));
 	ig_threads(dining_philos);
 	dining_philos->time_start = get_time();
-	ig_creat_thread(dining_philos);
-	waiter(dining_philos);
+	if(dining_philos->info->nu_philos == 1)
+		ig_creat_lonly(dining_philos);
+	else
+	{
+		ig_creat_thread(dining_philos);
+		waiter(dining_philos);
+	}
 	i = 0;
 	while (i < dining_philos->info->nu_philos - 1)
 	{
-		philo = dining_philos->philo[i++];
+		pthread_mutex_lock(&dining_philos->mx_state);
+		philo = dining_philos->philo[i];
+		pthread_mutex_unlock(&dining_philos->mx_state);
 		pthread_join(philo.pthread, NULL);
+		i++;
 	}
+	exit_thread(dining_philos);
 	return(0);
 }

@@ -57,11 +57,7 @@ typedef struct s_philo
 	long 				last_eat_time;
 
 }	t_philo;
-//typedef struct s_thread
-//{
-//	int		i;
-//	t_main	dinning;
-//}	t_thread;
+
 typedef struct s_main
 {
 	t_inf					*info;
@@ -71,7 +67,9 @@ typedef struct s_main
 	long 					time_start;
 	int						each_philos_eat;
 	pthread_mutex_t			*forks;
+	pthread_mutex_t			one_fork;
 	pthread_mutex_t			mx_phlio_state;
+	pthread_mutex_t			mx_state;
 	pthread_mutex_t			mx_each_ate_enough;
 	pthread_mutex_t			mx_dead_philo;
 	pthread_mutex_t			mx_print;
@@ -91,4 +89,7 @@ int			ig_check_thread(t_main *main, int closer);
 int			ig_the_check(t_main *dinner, int the_end);
 int 		waiter(t_main *dinner);
 long		get_time(void);
+void 		*ig_mr_lonly(void *param);
+void 		ig_creat_lonly(t_main *main);
+void		exit_thread(t_main *main);
 #endif
