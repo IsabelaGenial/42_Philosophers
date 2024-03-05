@@ -121,10 +121,7 @@ int ig_the_check(t_main *dinner, int the_end)
 		pthread_mutex_unlock(&dinner->mx_each_ate_enough);
 		pthread_mutex_unlock(&dinner->mx_dead_philo);
 		if(the_end)
-		{
-			//exit_thread(dinner);
 			exit(0);
-		}
 		return (1);
 	}
 	pthread_mutex_unlock(&dinner->mx_each_ate_enough);

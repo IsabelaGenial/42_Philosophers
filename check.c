@@ -32,14 +32,12 @@ void	ig_check_forks(t_main *dinner, int captor, int both )
 		pthread_mutex_unlock(&dinner->forks[captor]);
 		if (both)
 			pthread_mutex_unlock(&dinner->forks[both]);
-		//exit_thread(dinner);
 		exit(0);
 	}
 }
 
 void	print_state(t_philo *philo, enum e_philo_state mode)
 {
-
 	pthread_mutex_lock(&philo->ptr_main->mx_print);
 	printf("%ld %d %s\n", philo->state.time, philo->id + 1,
 				(char [5][20]){"has taken a fork", "is eating", "is sleeping",

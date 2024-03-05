@@ -10,7 +10,7 @@ void *ig_philo_thread(void *param)
 	t_philo *philo;
 
 	philo = (t_philo *)param;
-	while(!ig_the_check(philo->ptr_main, 0))
+	while(!ig_the_check(philo->ptr_main, 1))
 	{
 		ig_state(philo, THINKING);
 		usleep(10);
@@ -111,20 +111,15 @@ void exit_thread(t_main *main)
 	int i;
 
 	i=0;
-	unlock_mutex(main);
+	//unlock_mutex(main);
 	pthread_mutex_destroy(&main->mx_phlio_state);
-	//pthread_mutex_destroy(&main->mx_print);
 	pthread_mutex_destroy(&main->mx_each_ate_enough);
 	pthread_mutex_destroy(&main->mx_dead_philo);
-	pthread_mutex_destroy(&main->mx_state);
 	while(i < main->info->nu_philos)
 	{
-		free(&main->philo[i]);
 		free(&main->forks[i]);
 		i++;
 	}
-	free(main->info);
-	free(main);
 }
 
 void unlock_mutex(t_main *main)
