@@ -3,6 +3,7 @@
 
 static void ig_eat(t_philo *philo, enum e_philo_state mode);
 static void ig_sleep(t_philo *philo, enum e_philo_state mode);
+void unlock_mutex(t_main *main);
 
 void *ig_philo_thread(void *param)
 {
@@ -108,6 +109,7 @@ void exit_thread(t_main *main)
 	int i;
 
 	i=0;
+	unlock_mutex(main);
 	pthread_mutex_destroy(&main->mx_phlio_state);
 	//pthread_mutex_destroy(&main->mx_print);
 	pthread_mutex_destroy(&main->mx_each_ate_enough);
@@ -121,4 +123,13 @@ void exit_thread(t_main *main)
 	}
 	free(main->info);
 	free(main);
+}
+
+void unlock_mutex(t_main *main)
+{
+	pthread_mutex_unlock(&main->mx_each_ate_enough);
+	pthread_mutex_unlock(&main->mx_phlio_state);
+	pthread_mutex_unlock(&main->mx_state);
+	pthread_mutex_unlock(&main->mx_dead_philo);
+	pthread_mutex_unlock(&main->mx_print);
 }
