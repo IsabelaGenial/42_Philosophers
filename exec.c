@@ -87,12 +87,13 @@ void *ig_mr_lonly(void *param)
 
 	philo = (t_philo *)param;
 	ig_state(philo, THINKING);
+	usleep(100);
 	pthread_mutex_lock(&philo->ptr_main->one_fork);
 	pthread_mutex_unlock(&philo->ptr_main->one_fork);
 	ig_state(philo, HAS_FORK);
 	usleep(philo->ptr_main->info->time_to_die * 1000);
 	ig_state(philo, DEAD);
-	//exit_thread(philo->ptr_main);
+	exit_thread(philo->ptr_main);
 	exit(0);
 }
 
@@ -102,6 +103,7 @@ void ig_creat_lonly(t_main *main)
 
 	philo = &main->philo[0];
 	pthread_create(&philo->pthread, NULL, ig_mr_lonly, (void *)philo);
+	pthread_join(philo->pthread, NULL);
 }
 
 void exit_thread(t_main *main)
