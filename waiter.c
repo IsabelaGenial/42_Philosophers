@@ -122,7 +122,7 @@ int ig_the_check(t_main *dinner, int the_end)
 		pthread_mutex_unlock(&dinner->mx_dead_philo);
 		if(the_end)
 		{
-			exit_thread(dinner);
+			//exit_thread(dinner);
 			exit(0);
 		}
 		return (1);

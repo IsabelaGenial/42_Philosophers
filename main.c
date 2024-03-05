@@ -41,6 +41,6 @@ int	main(int argc, char **args)
 		pthread_join(philo.pthread, NULL);
 		i++;
 	}
-	exit_thread(dining_philos);
+	//exit_thread(dining_philos);
 	return(0);
 }

@@ -55,7 +55,7 @@ static void ig_eat(t_philo *philo, enum e_philo_state mode)
 
 static void ig_sleep(t_philo *philo, enum e_philo_state mode)
 {
-	if (!ig_the_check(philo->ptr_main, 0))
+	if (!ig_the_check(philo->ptr_main, 1))
 	{
 		ig_state(philo, mode);
 		pthread_mutex_lock(&philo->ptr_main->mx_phlio_state);
@@ -91,7 +91,7 @@ void *ig_mr_lonly(void *param)
 	ig_state(philo, HAS_FORK);
 	usleep(philo->ptr_main->info->time_to_die * 1000);
 	ig_state(philo, DEAD);
-	exit_thread(philo->ptr_main);
+	//exit_thread(philo->ptr_main);
 	exit(0);
 }
 
@@ -110,14 +110,13 @@ void exit_thread(t_main *main)
 	i=0;
 	pthread_mutex_destroy(&main->mx_phlio_state);
 	//pthread_mutex_destroy(&main->mx_print);
-	pthread_mutex_destroy(&main->mx_phlio_state);
 	pthread_mutex_destroy(&main->mx_each_ate_enough);
 	pthread_mutex_destroy(&main->mx_dead_philo);
 	pthread_mutex_destroy(&main->mx_state);
 	while(i < main->info->nu_philos)
 	{
-		pthread_mutex_destroy(&main->forks[i]);
 		free(&main->philo[i]);
+		free(&main->forks[i]);
 		i++;
 	}
 	free(main->info);
