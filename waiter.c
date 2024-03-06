@@ -20,21 +20,28 @@ int	ig_philo_dead(t_philo *philo, long time_die)
 	long dead;
 
 	dead = get_time();
-	if (dead - philo->last_eat_time > time_die)
+	pthread_mutex_lock(&philo->ptr_main->mx_state);
+	if (dead - philo->last_eat_time >= time_die)
 	{
 		dead = dead - philo->last_eat_time;
-		pthread_mutex_lock(&philo->ptr_main->mx_print);
 		philo->state = (t_philo_state) {DEAD,dead};
-		pthread_mutex_unlock(&philo->ptr_main->mx_print);
+		print_state(philo, DEAD);
+		pthread_mutex_unlock(&philo->ptr_main->mx_state);
 		return (1);
 	}
+	pthread_mutex_unlock(&philo->ptr_main->mx_state);
 	return (0);
 }
 
 int ig_philo_n_eat(t_philo *philo, int each_philos_eat)
 {
+	pthread_mutex_lock(&philo->ptr_main->mx_state);
 	if (philo->eat_n == each_philos_eat)
+	{
+		pthread_mutex_unlock(&philo->ptr_main->mx_state);
 		return (1);
+	}
+	pthread_mutex_unlock(&philo->ptr_main->mx_state);
 	return (0);
 }
 
@@ -50,8 +57,6 @@ int waiter(t_main *dinner)
 			pthread_mutex_lock(&dinner->mx_dead_philo);
 			dinner->dead_philo = philo;
 			pthread_mutex_unlock(&dinner->mx_dead_philo);
-			print_state(&dinner->philo[philo], DEAD);
-			pthread_mutex_lock(&dinner->mx_print);
 			break;
 		}
 		if (dinner->info->each_philos_eat
@@ -60,7 +65,6 @@ int waiter(t_main *dinner)
 			pthread_mutex_lock(&dinner->mx_each_ate_enough);
 			dinner->each_philos_eat = the_philo_eat(dinner);
 			pthread_mutex_unlock(&dinner->mx_each_ate_enough);
-			pthread_mutex_lock(&dinner->mx_print);
 			break;
 		}
 	}
@@ -76,6 +80,7 @@ int waiter(t_main *dinner)
 	 {
 		 if (ig_philo_dead(&dinner->philo[i], dinner->info->time_to_die))
 		 {
+
 			 pthread_mutex_unlock(&dinner->mx_phlio_state);
 			 return (i);
 		 }
@@ -112,7 +117,7 @@ long	get_time(void)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-int ig_the_check(t_main *dinner, int the_end)
+int ig_the_check(t_main *dinner)
 {
 	pthread_mutex_lock(&dinner->mx_each_ate_enough);
 	pthread_mutex_lock(&dinner->mx_dead_philo);
@@ -120,8 +125,6 @@ int ig_the_check(t_main *dinner, int the_end)
 	{
 		pthread_mutex_unlock(&dinner->mx_each_ate_enough);
 		pthread_mutex_unlock(&dinner->mx_dead_philo);
-		if(the_end)
-			exit(0);
 		return (1);
 	}
 	pthread_mutex_unlock(&dinner->mx_each_ate_enough);

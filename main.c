@@ -25,8 +25,9 @@ int	main(int argc, char **args)
 		return(printf("error malloc"));
 	ig_threads(dining_philos);
 	dining_philos->time_start = get_time();
-	if(dining_philos->info->nu_philos == 1)
+	if(dining_philos->info->nu_philos == 1) {
 		ig_creat_lonly(dining_philos);
+	}
 	else
 	{
 		ig_creat_thread(dining_philos);

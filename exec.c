@@ -10,12 +10,15 @@ void *ig_philo_thread(void *param)
 	t_philo *philo;
 
 	philo = (t_philo *)param;
-	while(!ig_the_check(philo->ptr_main, 1))
+	while(!ig_the_check(philo->ptr_main))
 	{
-		ig_state(philo, THINKING);
+		if(!ig_the_check(philo->ptr_main))
+			ig_state(philo, THINKING);
 		usleep(10);
-		ig_eat(philo, EATING);
-		ig_sleep(philo, SLEEPING);
+		if(!ig_the_check(philo->ptr_main))
+			ig_eat(philo, EATING);
+		if(!ig_the_check(philo->ptr_main))
+			ig_sleep(philo, SLEEPING);
 	}
 	return (0);
 }
@@ -38,17 +41,20 @@ static void ig_eat(t_philo *philo, enum e_philo_state mode)
 		second_fork = philo->id;
 		usleep(10);
 	}
-	ig_the_check(philo->ptr_main, 1);
+	if(ig_the_check(philo->ptr_main))
+		return ;
 	pthread_mutex_lock(&philo->ptr_main->forks[first_fork]);
 	ig_state(philo, HAS_FORK);
-	ig_check_forks(philo->ptr_main, first_fork, 0);
+	if(ig_check_forks(philo->ptr_main, first_fork, 0))
+		return;
 	pthread_mutex_lock(&philo->ptr_main->forks[second_fork]);
 	ig_state(philo, HAS_FORK);
-	ig_check_forks(philo->ptr_main, first_fork, second_fork);
-	pthread_mutex_lock(&philo->ptr_main->mx_phlio_state);
+	if(ig_check_forks(philo->ptr_main, first_fork, second_fork))
+		return;
 	ig_state(philo, mode);
+	pthread_mutex_lock(&philo->ptr_main->mx_state);
 	philo->last_eat_time = get_time();
-	pthread_mutex_unlock(&philo->ptr_main->mx_phlio_state);
+	pthread_mutex_unlock(&philo->ptr_main->mx_state);
 	usleep(philo->ptr_main->info->time_to_eat * 1000);
 	pthread_mutex_unlock(&philo->ptr_main->forks[first_fork]);
 	pthread_mutex_unlock(&philo->ptr_main->forks[second_fork]);
@@ -56,15 +62,16 @@ static void ig_eat(t_philo *philo, enum e_philo_state mode)
 
 static void ig_sleep(t_philo *philo, enum e_philo_state mode)
 {
-	if (!ig_the_check(philo->ptr_main, 1))
+	if (!ig_the_check(philo->ptr_main))
 	{
 		ig_state(philo, mode);
-		pthread_mutex_lock(&philo->ptr_main->mx_phlio_state);
+		pthread_mutex_lock(&philo->ptr_main->mx_state);
 		philo->eat_n++;
-		pthread_mutex_unlock(&philo->ptr_main->mx_phlio_state);
+		pthread_mutex_unlock(&philo->ptr_main->mx_state);
 		if (philo->ptr_main->info->time_to_sleep)
 			usleep(philo->ptr_main->info->time_to_sleep * 1000);
 	}
+	return;
 }
 
 void ig_creat_thread(t_main *main)
