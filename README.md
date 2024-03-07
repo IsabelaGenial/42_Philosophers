@@ -57,7 +57,7 @@ By alternating between the left and right sides for accessing forks based on the
 ## Routine of philosophers
 step 1: take a fork.
 <div>
-<img  src="https://cdn.discordapp.com/attachments/1021438070727381063/1210264415090376734/0.png?ex=65e9ed92&is=65d77892&hm=1824fb7083fbeb098eea1cc3f96d972f806f51faa09d492c4577431da8d2f4ad&"  width="200"  height="200">
+<img  src="https://cdn.discordapp.com/attachments/1021438070727381063/1210264415090376734/0.png?ex=65fc6292&is=65e9ed92&hm=d026e3631894662d471ab504fdf6994d57537dcd547c763bc5000fe57522a1d9&"  width="200"  height="200">
 <div/>
 
 ## 
