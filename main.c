@@ -6,7 +6,7 @@
 /*   By: igenial <igenial@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 13:56:05 by igenial           #+#    #+#             */
-/*   Updated: 2024/02/14 14:22:17 by igenial          ###   ########.fr       */
+/*   Updated: 2024/03/07 17:19:16 by igenial          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,18 @@
 int	main(int argc, char **args)
 {
 	t_main		*dining_philos;
-	int			i;
-	t_philo		philo;
 
-	if(ig_check_args(argc, args))
-		return (0);
+	if (ig_check_args(argc, args))
+		return (1);
 	dining_philos = ig_init_dinner(argc, args);
-	if(!dining_philos)
-		return(printf("error malloc"));
+	if (!dining_philos)
+		return (printf("error malloc"));
 	ig_threads(dining_philos);
 	dining_philos->time_start = get_time();
-	if(dining_philos->info->nu_philos == 1) {
-		ig_creat_lonly(dining_philos);
-	}
+	if (dining_philos->info->nu_philos == 1)
+		ig_creat_lonely(dining_philos);
 	else
-	{
 		ig_creat_thread(dining_philos);
-		waiter(dining_philos);
-		i = 0;
-		while (i < dining_philos->info->nu_philos)
-		{
-			pthread_mutex_lock(&dining_philos->mx_state);
-			philo = dining_philos->philo[i];
-			pthread_mutex_unlock(&dining_philos->mx_state);
-			pthread_join(philo.pthread, NULL);
-			i++;
-		}
-	}
 	exit_thread(dining_philos);
-	free(dining_philos->info);
-	free(dining_philos);
-	return(0);
+	return (0);
 }

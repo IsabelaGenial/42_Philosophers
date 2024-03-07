@@ -6,24 +6,11 @@
 /*   By: igenial <igenial@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:18:13 by igenial           #+#    #+#             */
-/*   Updated: 2024/03/04 19:54:58 by igenial          ###   ########.fr       */
+/*   Updated: 2024/03/07 16:41:59 by igenial          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	ig_state(t_philo *philo, enum e_philo_state mode)
-{
-	long	time;
-	long	now;
-
-	now = get_time();
-	time = now - philo->ptr_main->time_start;
-	pthread_mutex_lock(&philo->ptr_main->mx_state);
-	philo->state = (t_philo_state){mode, time};
-	pthread_mutex_unlock(&philo->ptr_main->mx_state);
-	print_state(philo, mode);
-}
 
 int	ig_check_forks(t_main *dinner, int captor, int both )
 {
@@ -37,15 +24,47 @@ int	ig_check_forks(t_main *dinner, int captor, int both )
 	return (0);
 }
 
-void	print_state(t_philo *philo, enum e_philo_state mode)
+int	ig_the_check(t_main *dinner)
 {
-	if(!ig_the_check(philo->ptr_main))
+	pthread_mutex_lock(&dinner->mx_each_ate_enough);
+	pthread_mutex_lock(&dinner->mx_dead_philo);
+	if (dinner->dead_philo != -1 || dinner->each_philos_eat != 0)
 	{
-		pthread_mutex_lock(&philo->ptr_main->mx_print);
-		printf("%ld %d %s\n", get_time() - philo->ptr_main->time_start, philo->id + 1,
-			   (char[5][20]) {"has taken a fork", "is eating", "is sleeping",
-							  "is thinking", "died"}[mode]);
-		pthread_mutex_unlock(&philo->ptr_main->mx_print);
+		pthread_mutex_unlock(&dinner->mx_each_ate_enough);
+		pthread_mutex_unlock(&dinner->mx_dead_philo);
+		return (1);
 	}
+	pthread_mutex_unlock(&dinner->mx_each_ate_enough);
+	pthread_mutex_unlock(&dinner->mx_dead_philo);
+	return (0);
+}
 
+int	ig_philo_dead(t_philo *philo, long time_die)
+{
+	long	dead;
+
+	dead = get_time();
+	pthread_mutex_lock(&philo->ptr_main->mx_state);
+	if (dead - philo->last_eat_time >= time_die)
+	{
+		dead = dead - philo->last_eat_time;
+		philo->state = (t_philo_state){DEAD, dead};
+		print_state(philo, DEAD);
+		pthread_mutex_unlock(&philo->ptr_main->mx_state);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->ptr_main->mx_state);
+	return (0);
+}
+
+int	ig_philo_n_eat(t_philo *philo, int each_philos_eat)
+{
+	pthread_mutex_lock(&philo->ptr_main->mx_state);
+	if (philo->eat_n == each_philos_eat)
+	{
+		pthread_mutex_unlock(&philo->ptr_main->mx_state);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->ptr_main->mx_state);
+	return (0);
 }
