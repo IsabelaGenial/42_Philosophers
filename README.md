@@ -50,7 +50,11 @@ This strategy effectively blocks odd-numbered philosophers from accessing the re
 
 By alternating between the left and right sides for accessing forks based on the philosopher's number, my solution prevents deadlock and ensures that all philosophers eventually get access to the resources they need to eat.
 
+<div>
+<img  src="https://cdn.discordapp.com/attachments/1021438070727381063/1215410192444031056/Philosopher_Project_Flowchart_-_Exemplo_de_fluxograma_de_central_de_atendimento_5.png?ex=65fca5f3&is=65ea30f3&hm=6b213dacb460312ee5dae0b06e53a6be0d8c1a47ba58ec0720bd91d628c84340&"  width=""  height="450">
+<div/>
+    
 ## Routine of philosophers
 <div>
-<img  src="https://cdn.discordapp.com/attachments/1021438070727381063/1215392239140741212/Philosopher_Project_Flowchart_-_Exemplo_de_fluxograma_de_central_de_atendimento_4.png?ex=65fc953a&is=65ea203a&hm=15d5c6c01ae0f85266f0f46bfb3e44f7cbaea97fce2a93afe269915a377b11fc&"  width=""  height="800">
+<img  src="https://cdn.discordapp.com/attachments/1021438070727381063/1215410192444031056/Philosopher_Project_Flowchart_-_Exemplo_de_fluxograma_de_central_de_atendimento_5.png?ex=65fca5f3&is=65ea30f3&hm=6b213dacb460312ee5dae0b06e53a6be0d8c1a47ba58ec0720bd91d628c84340&"  width=""  height="450">
 <div/>
