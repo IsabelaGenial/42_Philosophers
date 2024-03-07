@@ -55,6 +55,29 @@ By alternating between the left and right sides for accessing forks based on the
 <div/>
     
 ## Routine of philosophers
+step 1: take a fork.
 <div>
-<img  src="https://cdn.discordapp.com/attachments/1021438070727381063/1215410192444031056/Philosopher_Project_Flowchart_-_Exemplo_de_fluxograma_de_central_de_atendimento_5.png?ex=65fca5f3&is=65ea30f3&hm=6b213dacb460312ee5dae0b06e53a6be0d8c1a47ba58ec0720bd91d628c84340&"  width=""  height="450">
+<img  src="https://cdn.discordapp.com/attachments/1021438070727381063/1210264415090376734/0.png?ex=65e9ed92&is=65d77892&hm=1824fb7083fbeb098eea1cc3f96d972f806f51faa09d492c4577431da8d2f4ad&"  width="200"  height="200">
 <div/>
+
+## 
+step 2: philosophers who have two forks eat while others, who do not have two forks, think.
+<div>
+<img  src="https://cdn.discordapp.com/attachments/1021438070727381063/1210264415530917978/0_1.png?ex=65e9ed92&is=65d77892&hm=83fb3663161aa8ec08c62fe0fcf404b1808537b661db918a4894b5cd16daa851&"  width="200"  height="200">
+<img  src="https://cdn.discordapp.com/attachments/1021438070727381063/1210264415870525501/0_3.png?ex=65e9ed92&is=65d77892&hm=9085fca5540c8cb19536b2e3d7aa9faa0eca602ec5fd04902c3edce1dc08c1e7&"  width="200"  height="200">
+<div/>
+
+## 
+step 3: philosophers who were eating now sleep while others, who now have two forks, eat.
+<div>
+<img  src="https://cdn.discordapp.com/attachments/1021438070727381063/1210264416184967218/0_4.png?ex=65e9ed92&is=65d77892&hm=d22840a52b3b3d9518e4de931fe2fac2efd415cbb116e82ed624280eeda49b8f&"  width="200"  height="200">
+<img  src="https://cdn.discordapp.com/attachments/1021438070727381063/1210264416453656586/0_5.png?ex=65e9ed92&is=65d77892&hm=e5bacd32b851bb576effe4e9044afb1aa32acdbe5baa08ea82d2101488e5285b&"  width="200"  height="200">
+<div/>
+
+## 
+step 4: philosophers who have two forks eat while others, who do not have two forks, think.
+<div>
+<img  src="https://cdn.discordapp.com/attachments/1021438070727381063/1210264416764039228/0_6.png?ex=65e9ed92&is=65d77892&hm=d1183322175f8d86e1dba3021e39d08fdfc0a3e2dc6646d6fe528204f821263f&"  width="200"  height="200">
+<img  src="https://cdn.discordapp.com/attachments/1021438070727381063/1210264417103511622/0_7.png?ex=65e9ed92&is=65d77892&hm=b0d82059e6dc88eee1a620bd8a5eef944bea9bac84529034bdc20fb5dfe826fb&"  width="200"  height="200">
+<div/>
+step 5: continue the routine loop.>
