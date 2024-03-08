@@ -6,19 +6,18 @@
 /*   By: igenial <igenial@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:18:24 by igenial           #+#    #+#             */
-/*   Updated: 2024/02/26 13:18:26 by igenial          ###   ########.fr       */
+/*   Updated: 2024/03/07 12:44:45 by igenial          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "philo.h"
 
-static int  is_num(char *args);
+static int	is_num(char *args);
 
-int ig_check_args(int argc, char **args)
+int	ig_check_args(int argc, char **args)
 {
 	if (argc != 6 && argc != 5)
-		return(printf("ERROR: number of arguments\n"));
+		return (printf("ERROR: number of arguments\n"));
 	if (is_num(args[1]) || is_num(args[2]) || is_num(args[3])
 		|| is_num(args[4]) || (argc == 6 && is_num(args[5])))
 		return (printf("ERROR: arguments\n"));
@@ -30,9 +29,9 @@ int ig_check_args(int argc, char **args)
 	return (0);
 }
 
-static int  is_num(char *args)
+static int	is_num(char *args)
 {
-	while((*args >= '0' && *args <= '9') || (*args == '-' || *args == '+'))
+	while ((*args >= '0' && *args <= '9') || (*args == '-' || *args == '+'))
 		args++;
 	return (*args);
 }

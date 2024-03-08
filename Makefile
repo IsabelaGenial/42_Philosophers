@@ -12,11 +12,11 @@
 
 NAME				=	philo
 
-SRC_MANDATORY		= 	main.c init.c error.c check.c exec.c waiter.c
+SRC_MANDATORY		= 	main.c init.c error.c check.c exec.c waiter.c exit.c routine.c
 OBJ					=	$(SRC_MANDATORY:%.c=%.o)
 HEADER				=	./philo.h
 CC					=	cc
-CFLAG				=	-g3 -Wall -Wextra -Werror -pthread -fsanitize=thread
+CFLAG				=	-g3 -Wall -Wextra -Werror -pthread #-fsanitize=thread
 
 
 all: $(NAME)
